@@ -1,0 +1,17 @@
+program Project1;
+
+uses
+  Vcl.Forms,
+  uCadastro in 'uCadastro.pas' {frCadastroAluno},
+  uEstagioDesejado in '..\aula2\uEstagioDesejado.pas' {frEstagiosInf},
+  uEstagioDesejadoQui in '..\aula2\uEstagioDesejadoQui.pas' {frEstagioQui};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TfrCadastroAluno, frCadastroAluno);
+  Application.CreateForm(TfrEstagiosInf, frEstagiosInf);
+  Application.Run;
+end.
