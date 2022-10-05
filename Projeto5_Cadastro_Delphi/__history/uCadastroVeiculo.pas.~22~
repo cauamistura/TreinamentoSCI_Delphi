@@ -1,0 +1,145 @@
+unit uCadastroVeiculo;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.StdCtrls, Vcl.Grids,
+  Vcl.DBGrids, Datasnap.DBClient;
+
+type
+  TfrCadastroVeiculos = class(TForm)
+    cdsCadastroVeiculo: TClientDataSet;
+    cdsCadastroVeiculobdCodigo: TIntegerField;
+    cdsCadastroVeiculobdTipoVeiculo: TStringField;
+    cdsCadastroVeiculobdMarca: TStringField;
+    cdsCadastroVeiculobdFinalPlaca: TIntegerField;
+    cdsCadastroVeiculobdPreco: TCurrencyField;
+    cdsCadastroVeiculobdFabricacaoNacional: TBooleanField;
+    DBGrid1: TDBGrid;
+    lbCodigo: TLabel;
+    srControladorCDS1: TDataSource;
+    lbTipo: TLabel;
+    lbMarca: TLabel;
+    lbFinal: TLabel;
+    lbPreco: TLabel;
+    ckFrabricacao: TCheckBox;
+    edCodigo: TEdit;
+    edMarca: TEdit;
+    edPreco: TEdit;
+    cbTipo: TComboBox;
+    cbFinalPlaca: TComboBox;
+    btAdicionarCDS: TButton;
+    btPrintar: TButton;
+    procedure btAdicionarCDSClick(Sender: TObject);
+    procedure edCodigoExit(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure btPrintarClick(Sender: TObject);
+  private
+    { Private declarations }
+    wSLCadastroCarro: TStringList;
+
+    function fTipoVeiculo: String;
+    function fSetaTipo: Integer;
+    function fTextoCDS: String;
+  public
+    { Public declarations }
+  end;
+
+var
+  frCadastroVeiculos: TfrCadastroVeiculos;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrCadastroVeiculos.btAdicionarCDSClick(Sender: TObject);
+begin
+  cdsCadastroVeiculo.IndexFieldNames := 'bdCodigo';
+  if cdsCadastroVeiculo.FindKey([edCodigo.Text]) then
+    cdsCadastroVeiculo.Edit
+  else
+    cdsCadastroVeiculo.Insert;
+
+  cdsCadastroVeiculobdCodigo.AsInteger             := StrToInt(edCodigo.Text);
+  cdsCadastroVeiculobdTipoVeiculo.AsString         := fTipoVeiculo;
+  cdsCadastroVeiculobdMarca.AsString               := edMarca.Text;
+  cdsCadastroVeiculobdFinalPlaca.AsInteger         := cbFinalPlaca.ItemIndex;
+  cdsCadastroVeiculobdPreco.AsCurrency             := StrToCurr(edPreco.Text);
+  cdsCadastroVeiculobdFabricacaoNacional.AsBoolean := ckFrabricacao.Checked;
+
+  cdsCadastroVeiculo.Post;
+  edCodigo.SetFocus;
+end;
+
+procedure TfrCadastroVeiculos.btPrintarClick(Sender: TObject);
+begin
+  ShowMessage(fTextoCDS);
+  wSLCadastroCarro.Add(fTextoCDS);
+end;
+
+procedure TfrCadastroVeiculos.edCodigoExit(Sender: TObject);
+begin
+  cdsCadastroVeiculo.IndexFieldNames := 'bdCodigo';
+  if cdsCadastroVeiculo.FindKey([edCodigo.Text]) then
+    begin
+      cbTipo.ItemIndex       := fSetaTipo;
+      edMarca.Text           := cdsCadastroVeiculobdMarca.AsString;
+      cbFinalPlaca.ItemIndex := cdsCadastroVeiculobdFinalPlaca.AsInteger;
+      edPreco.Text           := cdsCadastroVeiculobdPreco.AsString;
+      ckFrabricacao.Checked  := cdsCadastroVeiculobdFabricacaoNacional.AsBoolean;
+    end
+  else
+    begin
+      cbTipo.ItemIndex       := -1;
+      edMarca.Text           := '';
+      cbFinalPlaca.ItemIndex := -1;
+      edPreco.Text           := '';
+      ckFrabricacao.Checked  := False;
+    end;
+end;
+
+procedure TfrCadastroVeiculos.FormShow(Sender: TObject);
+begin
+ wSLCadastroCarro.Create;
+ wSLCadastroCarro.Clear;
+end;
+
+function TfrCadastroVeiculos.fSetaTipo: Integer;
+begin
+  Result := 0;
+  if fTipoVeiculo = 'Carro' then
+    Result := 1;
+  if fTipoVeiculo = 'Caminhão' then
+    Result := 2;
+end;
+
+function TfrCadastroVeiculos.fTextoCDS: String;
+begin
+ Result := '';
+ cdsCadastroVeiculo.IndexFieldNames := 'bdCodigo';
+ cdsCadastroVeiculo.First;
+ while not cdsCadastroVeiculo.Eof do
+  begin
+    Result := Result + 'Codigo: ' + IntToStr(cdsCadastroVeiculobdCodigo.AsInteger) +
+                       ' Tipo: '  + cdsCadastroVeiculobdTipoVeiculo.AsString +
+                       ' Marca: ' + cdsCadastroVeiculobdMarca.AsString +
+                       ' Final da Placa: ' + IntToStr(cdsCadastroVeiculobdFinalPlaca.AsInteger)+
+                       ' Preço: ' + CurrToStr(cdsCadastroVeiculobdPreco.AsCurrency) + #13;
+    cdsCadastroVeiculo.Next;
+  end;
+
+end;
+
+function TfrCadastroVeiculos.fTipoVeiculo: String;
+begin
+  Result := 'Não Atribuido';
+  if cbTipo.ItemIndex = 0 then
+    Result := 'Carro ';
+  if cbTipo.ItemIndex = 1 then
+    Result := 'Moto';
+  if cbTipo.ItemIndex = 2 then
+    Result := 'Caminhão';
+end;
+
+end.
