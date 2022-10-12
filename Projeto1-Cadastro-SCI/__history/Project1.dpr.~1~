@@ -1,0 +1,14 @@
+program Project1;
+
+uses
+  Vcl.Forms,
+  uCadastro in 'uCadastro.pas' {frCadastroAluno};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TfrCadastroAluno, frCadastroAluno);
+  Application.Run;
+end.

@@ -1,0 +1,283 @@
+object frRegistroAluno: TfrRegistroAluno
+  Left = 0
+  Top = 0
+  Caption = 'Registro Do Aluno'
+  ClientHeight = 500
+  ClientWidth = 530
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object lbTitulo: TLabel
+    Left = 0
+    Top = 0
+    Width = 530
+    Height = 19
+    Align = alTop
+    Alignment = taCenter
+    Caption = 'Registro do Aluno'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -16
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+    ExplicitWidth = 128
+  end
+  object lbMatricula: TLabel
+    Left = 33
+    Top = 104
+    Width = 47
+    Height = 13
+    Caption = 'Matricula:'
+  end
+  object lbCidade: TLabel
+    Left = 38
+    Top = 248
+    Width = 37
+    Height = 13
+    Caption = 'Cidade:'
+  end
+  object lbFase: TLabel
+    Left = 48
+    Top = 200
+    Width = 27
+    Height = 13
+    Caption = 'Fase:'
+  end
+  object lbCurso: TLabel
+    Left = 48
+    Top = 152
+    Width = 32
+    Height = 13
+    Caption = 'Curso:'
+  end
+  object lbNome: TLabel
+    Left = 48
+    Top = 64
+    Width = 31
+    Height = 13
+    Caption = 'Nome:'
+  end
+  object edCidade: TEdit
+    Left = 81
+    Top = 245
+    Width = 121
+    Height = 21
+    TabOrder = 4
+  end
+  object edNome: TEdit
+    Left = 85
+    Top = 61
+    Width = 121
+    Height = 21
+    TabOrder = 0
+  end
+  object cbCurso: TComboBox
+    Left = 86
+    Top = 149
+    Width = 121
+    Height = 21
+    TabOrder = 2
+    Items.Strings = (
+      'Informatica'
+      'Quimica')
+  end
+  object edMatricula: TEdit
+    Left = 86
+    Top = 101
+    Width = 121
+    Height = 21
+    TabOrder = 1
+  end
+  object cbFase: TComboBox
+    Left = 81
+    Top = 197
+    Width = 121
+    Height = 21
+    TabOrder = 3
+    Items.Strings = (
+      '1'
+      '2'
+      '3'
+      '4'
+      '5'
+      '6')
+  end
+  object ckTrabalha: TCheckBox
+    Left = 96
+    Top = 288
+    Width = 97
+    Height = 17
+    Caption = 'Trabalha'
+    TabOrder = 5
+  end
+  object btAdicionar: TButton
+    Left = 312
+    Top = 168
+    Width = 75
+    Height = 25
+    Caption = 'Adicionar'
+    TabOrder = 6
+    OnClick = btAdicionarClick
+  end
+  object grPrintDataBase: TDBGrid
+    Left = 8
+    Top = 328
+    Width = 514
+    Height = 164
+    DataSource = srDadosAlunos
+    TabOrder = 7
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -11
+    TitleFont.Name = 'Tahoma'
+    TitleFont.Style = []
+    OnTitleClick = grPrintDataBaseTitleClick
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'bdMatricula'
+        Title.Caption = 'Matricula'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'bdNome'
+        Title.Caption = 'Nome'
+        Width = 110
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'bdCurso'
+        Title.Caption = 'Curso'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'bdFase'
+        Title.Caption = 'Fase'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'bdCidade'
+        Title.Caption = 'Cidade'
+        Width = 110
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'bdTrabalha'
+        Title.Caption = 'Trabalha'
+        Width = 50
+        Visible = True
+      end>
+  end
+  object srDadosAlunos: TDataSource
+    DataSet = cdsDadosAlunos
+    Left = 424
+    Top = 80
+  end
+  object cdsDadosAlunos: TClientDataSet
+    PersistDataPacket.Data = {
+      980000009619E0BD01000000180000000600000000000300000098000B62644D
+      6174726963756C6104000100000000000662644E6F6D65020049000000010005
+      574944544802000200FF00076263437572736F04000100000000000662644661
+      7365040001000000000008626443696461646502004900000001000557494454
+      4802000200FF000A626454726162616C686102000300000000000000}
+    Active = True
+    Aggregates = <>
+    FieldDefs = <
+      item
+        Name = 'bdMatricula'
+        DataType = ftInteger
+      end
+      item
+        Name = 'bdNome'
+        DataType = ftString
+        Size = 255
+      end
+      item
+        Name = 'bcCurso'
+        DataType = ftInteger
+      end
+      item
+        Name = 'bdFase'
+        DataType = ftInteger
+      end
+      item
+        Name = 'bdCidade'
+        DataType = ftString
+        Size = 255
+      end
+      item
+        Name = 'bdTrabalha'
+        DataType = ftBoolean
+      end>
+    IndexDefs = <
+      item
+        Name = 'iMatricula'
+        Fields = 'bdMatricula'
+        Options = [ixPrimary, ixUnique]
+      end
+      item
+        Name = 'iNome'
+        Fields = 'bdNome'
+        Options = [ixCaseInsensitive]
+      end
+      item
+        Name = 'iCurso'
+        Fields = 'bdCurso'
+        Options = [ixCaseInsensitive]
+      end
+      item
+        Name = 'iFase'
+        Fields = 'bdFase'
+        Options = [ixCaseInsensitive]
+      end
+      item
+        Name = 'iCidade'
+        Fields = 'bdCidade'
+        Options = [ixCaseInsensitive]
+      end
+      item
+        Name = 'iTrabalha'
+        Fields = 'bdTrabalha'
+        Options = [ixCaseInsensitive]
+      end>
+    Params = <>
+    StoreDefs = True
+    Left = 392
+    Top = 136
+    object IntegerField1: TIntegerField
+      FieldName = 'bdMatricula'
+    end
+    object StringField1: TStringField
+      FieldName = 'bdNome'
+      Size = 255
+    end
+    object StringField2: TStringField
+      FieldKind = fkCalculated
+      FieldName = 'bdCurso'
+      Size = 15
+      Calculated = True
+    end
+    object IntegerField2: TIntegerField
+      FieldName = 'bdFase'
+    end
+    object StringField3: TStringField
+      FieldName = 'bdCidade'
+      Size = 255
+    end
+    object BooleanField1: TBooleanField
+      FieldName = 'bdTrabalha'
+    end
+  end
+end
